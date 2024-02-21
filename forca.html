@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogo da Forca</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #5a98ff; /* Cor de fundo azul */
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    #game-container {
+        max-width: 600px;
+        text-align: center;
+        background-color: #ffffff; /* Cor de fundo branca */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    }
+    h1 {
+        color: #2c3e50; /* Cor do texto azul escuro */
+        margin-bottom: 20px;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #3498db; /* Cor de fundo azul */
+        border: none;
+        color: #ffffff; /* Cor do texto branco */
+        border-radius: 5px;
+        margin: 5px;
+    }
+    button:hover {
+        background-color: #2980b9; /* Cor de fundo azul mais escura quando hover */
+    }
+    #hangman-image {
+        width: 200px;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+<div id="game-container">
+    <h1>Jogo da Forca</h1>
+    <img src="https://cdn.pixabay.com/photo/2014/04/02/17/05/hangman-307841_960_720.png" alt="Forca" id="hangman-image">
+    <p>Escolha uma categoria:</p>
+    <button id="fruits-btn">Frutas</button>
+    <button id="animals-btn">Animais</button>
+    <button id="countries-btn">Países</button>
+    <div id="game"></div>
+</div>
+
+<script>
+    // Arrays de palavras
+    const palavras = {
+        frutas: ['maçã', 'banana', 'laranja', 'uva', 'pera', 'melão', 'pêssego', 'kiwi', 'ameixa', 'limão'],
+        animais: ['leão', 'tigre', 'elefante', 'zebra', 'girafa', 'macaco', 'rinoceronte', 'hipopótamo', 'guepardo', 'crocodilo'],
+        países: ['brasil', 'eua', 'canadá', 'china', 'índia', 'alemanha', 'frança', 'itália', 'japão', 'austrália']
+    };
+
+    let categoriaEscolhida = '';
+    let palavraEscolhida = '';
+    let jogoIniciado = false;
+
+    // Função para iniciar o jogo
+    function iniciarJogo(categoria) {
+        categoriaEscolhida = categoria;
+        palavraEscolhida = obterPalavraAleatoria(palavras[categoriaEscolhida]);
+        jogoIniciado = true;
+
+        // Exibir a primeira letra da palavra escolhida
+        const primeiraLetra = palavraEscolhida.charAt(0);
+        const palpite = prompt(`Adivinhe a ${categoriaEscolhida} que começa com a letra "${primeiraLetra}"`);
+
+        // Verificar se o palpite está correto
+        if (palpite && palpite.toLowerCase() === palavraEscolhida.toLowerCase()) {
+            alert('Parabéns! Você acertou a palavra.');
+        } else {
+            alert(`Desculpe, a palavra correta era "${palavraEscolhida}".`);
+        }
+
+        // Reiniciar o jogo
+        jogoIniciado = false;
+    }
+
+    // Função para obter uma palavra aleatória de um array
+    function obterPalavraAleatoria(arrayPalavras) {
+        const indiceAleatorio = Math.floor(Math.random() * arrayPalavras.length);
+        return arrayPalavras[indiceAleatorio];
+    }
+
+    // Event listeners para os botões de categoria
+    document.getElementById('fruits-btn').addEventListener('click', () => {
+        if (!jogoIniciado) {
+            iniciarJogo('frutas');
+        }
+    });
+
+    document.getElementById('animals-btn').addEventListener('click', () => {
+        if (!jogoIniciado) {
+            iniciarJogo('animais');
+        }
+    });
+
+    document.getElementById('countries-btn').addEventListener('click', () => {
+        if (!jogoIniciado) {
+            iniciarJogo('países');
+        }
+    });
+</script>
+</body>
+</html>
